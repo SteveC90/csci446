@@ -11,6 +11,11 @@ body {
 #header {
 	padding:10px;
 	background-color: #ccc;
+	letter-spacing: -1px;
+}
+
+#header h1 {
+	letter-spacing: -2px;
 }
 
 #bar {
