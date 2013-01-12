@@ -3,6 +3,13 @@
 	<head>
 		<title>Life Figure-Outer Application</title>
 		<link rel="stylesheet" href="extra/style.css">
+		<script type="text/javascript">
+		function validate() {
+			if (document.getElementById("required").value.length==0){
+				alert("Surely you feel something!");
+			}
+		}
+		</script>
 	</head>
 	<body>
 		<div id="box">
@@ -25,7 +32,7 @@
 					<table>
 						<tr>
 							<td>How do you feel today?</td>
-							<td><input type="text" name="feel_today"></td>
+							<td><input type="text" id="required" name="feel_today"></td>
 						</tr>
 						<tr>
 							<td>How would you like to feel?<br>(choose all that apply)</td>
@@ -40,7 +47,7 @@
 						</tr>
 							<td></td>
 							<td>
-								<input class="rounded" type="submit" value="Feel me!">
+								<input class="rounded" type="submit" onclick="validate()" value="Feel me!">
 							</td>
 						</tr>
 					</table>
