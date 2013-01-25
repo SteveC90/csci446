@@ -20,8 +20,8 @@ class HelloWorld
   end
 
   def render_list(request)
-  	response = Rack::Response.new(request.path)d
-  	respone.finish
+  	hash = request.GET()
+  	[200, {"Content-Type" => "text/plain"}, [hash["order"]]]
   end
 
 end

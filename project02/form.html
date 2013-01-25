@@ -12,9 +12,12 @@
 			<option value="option">Year</option>
 		</select>
 		<label for="rank">Select a Rank to Hishlight</label>
-		<select name="rank">
-			<option value="1">1</option>
-			<option value="2">2</option>
+		<select name="rank" id="rank">
+			<script type="text/javascript">
+				for(i=1; i<=100; i++) {
+				    document.write("<option value=\"" + i + "\">" + i + "</option>");
+				}
+			</script>
 		</select>
 		<input type="submit" value="Display List">
 	</form>
