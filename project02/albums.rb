@@ -1,4 +1,5 @@
 require 'rack'
+require_relative 'album_class'
 
 class HelloWorld
   def call(env)
@@ -18,25 +19,12 @@ class HelloWorld
   	File.open("form.html", "rb") { |form| response.write(form.read)}
   	response.finish
   end
+  #Create album class!!
 
   def render_list(request)
   	hash = request.GET()
-	albums = Array.new
-	file = File.new("top_100_albums.txt", "r")
-	counter = 1
-	while line = file.gets do
-		temp = line.split(',').collect { |x| x.strip }
-		temp << counter
-		counter += 1
-		albums << temp
-	end
-	file.close
-
-	if hash["order"]=="name"
-		albums.sort! { |a,b| a[0] <=> b[0] }
-	elsif hash["order"]=="year"
-		albums.sort! { |a,b| a[1] <=> b[1] }
-	end
+	albums = File.readlines("top_100_albums.txt").each_with_index.map { |s,i| Album.new(s, i+1) }
+	albums.sort! { |a, b| a.send(hash["order"].intern) <=> b.send(hash["order"].intern) }
 
 	html = 
 	"<html>
@@ -47,17 +35,19 @@ class HelloWorld
 	 	<h1>Rolling Stone's Top 100 Albums of All Time</h1>
 	 	<h3>Sorted by " + hash["order"].capitalize+"</h3>
 	 	<table>"
+
 	 albums.each do |x|
 	 	html << "<tr"
-	 	if x[2]==hash["rank"].to_i
-	 		html<<"style=\"color:green\""
+	 	if x.rank==hash["rank"].to_i
+	 		puts "Green!"
+	 		html << " style=\"color:orange;\""
 	 	end
-	 	html << "><td>" << x[2] << "</td><td>" << x[0] << "</td><td>" << x[1] << "</td></tr>"
+	 	html << "><td>" << x.rank.to_s << "</td><td>" << x.name << "</td><td>" << x.year << "</td></tr>"
 	 end
 	
 	html << "</table> </body> </html>"
 
-	[200, {"Content-Type" => "text/html"}, html ]
+	[200, {"Content-Type" => "text/html"}, [html] ]
 
 
   	#[200, {"Content-Type" => "text/plain"}, [hash["order"]]]
