@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title>The Form</title>
+</head>
+<body>
+	<h1>Rolling Stone's Top 100 Albums of All Time</h1>
+	<form action="/list" method="GET">
+		<label for="order">Sort By</label>
+		<select name="order">
+			<option value="rank">Rank (default)</option>
+			<option value="name">Name</option>
+			<option value="year">Year</option>
+		</select>
+		<label for="rank">Select a Rank to Hishlight</label>
+		<select name="rank" id="rank">
+			<script type="text/javascript">
+				for(i=1; i<=100; i++) {
+				    document.write("<option value=\"" + i + "\">" + i + "</option>");
+				}
+			</script>
+		</select>
+		<input type="submit" value="Display List">
+	</form>
+</body>
+</html>
