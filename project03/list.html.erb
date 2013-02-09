@@ -1,0 +1,15 @@
+<html>
+ <head>
+ 	<title>The List</title>
+ </head>
+ <body>
+ 	<h1>Rolling Stone's Top 100 Albums of All Time</h1>
+ 	<h3>Sorted by <%= request.params["order"].capitalize %></h3>
+ 	<table>
+ 		<% albums.each do |x| %>
+ 		<%= x.rank==request.params["rank"].to_i ? "<tr style=\"color:orange;\">" : "<tr>" %>
+ 		<%= "<td> #{x.rank.to_s} </td><td> #{x.name} </td><td> #{x.year} </td></tr>" %>
+ 		<% end %>
+ 	</table>
+ </body>
+ </html>
