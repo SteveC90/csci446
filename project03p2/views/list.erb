@@ -1,15 +1,15 @@
-<html>
- <head>
- 	<title>The List</title>
- </head>
- <body>
- 	<h1>Rolling Stone's Top 100 Albums of All Time</h1>
- 	<h3>Sorted by <%= params[:order].capitalize %></h3>
- 	<table>
- 		<% @albums.each do |x| %>
- 		<%= x.rank==params[:rank].to_i ? "<tr style=\"color:orange;\">" : "<tr>" %>
- 		<%= "<td> #{x.rank.to_s} </td><td> #{x.title} </td><td> #{x.year} </td></tr>" %>
- 		<% end %>
- 	</table>
- </body>
- </html>
+<h3>Sorted by <%= params[:order].capitalize %></h3>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Rank</th>
+			<th>Title</th>
+			<th>Year</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @albums.each do |x| %>
+	<%= x.rank==params[:rank].to_i ? "<tr class=\"success\">" : "<tr>" %>
+	<%= "<td> #{x.rank.to_s} </td><td> #{x.title} </td><td> #{x.year} </td></tr>" %>
+	<% end %>
+</tbody></table>
