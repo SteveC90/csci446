@@ -1,7 +1,11 @@
 require 'rack'
+require 'sqlite3'
 require_relative 'album'
 
 class AlbumApp
+  @@DB = SQLite3::Database.new("albums.sqlite3.db")
+  @@NUM = @@DB.get_first_value("select count(*) from albums")
+
   def call(env)
   	request = Rack::Request.new(env)
   	case request.path
@@ -18,14 +22,12 @@ class AlbumApp
   end
 
   def render_list(request)
-  	response = Rack::Response.new
-	albums = File.readlines("top_100_albums.txt").each_with_index.map { |s,i| Album.new(s, i+1) }
-	albums.sort! { |a, b| a.send(request.params["order"].intern) <=> b.send(request.params["order"].intern) }
-
-	response.write(ERB.new(File.read("list.html.erb")).result(binding))
-	response.finish
+    response = Rack::Response.new
+  	albums = @@DB.execute("select * from albums order by #{request.params["order"]}").each.map { |r| Album.new(r) }
+  
+  	response.write(ERB.new(File.read("list.html.erb")).result(binding))
+  	response.finish
   end
-
 end
 
 Rack::Handler::WEBrick.run AlbumApp.new, :Port => 8080

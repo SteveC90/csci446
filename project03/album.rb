@@ -1,10 +1,9 @@
 class Album
 	attr_accessor :name, :rank, :year
 
-	def initialize(string, r)
-		t = string.split(',')
-		@name = t[0].strip
-		@year = t[1].strip
-		@rank = r
+	def initialize(row)
+		@name = row[1]
+		@year = row[2]
+		@rank = row[3]
 	end
 end
