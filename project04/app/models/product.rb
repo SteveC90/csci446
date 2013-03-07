@@ -1,4 +1,7 @@
 class Product < ActiveRecord::Base
+  has_many :line_items
+  before_destroy :ensure_not_referenced_by_any_line_item
+
   def self.latest
   	Product.order('updated_at').last
   end
@@ -11,4 +14,15 @@ class Product < ActiveRecord::Base
   	with: %r{\.(gif|jpg|png)\Z}i,
   	message: 'must be a URL for GIF, JPG or PNG image.'
   }
+
+  private
+
+    def ensure_not_referenced_by_any_line_item
+      if line_items.empty?
+        return true
+      else
+        errors.add(:base, 'Line Items present')
+        return false
+      end
+    end
 end
